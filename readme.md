@@ -1,124 +1,82 @@
-🧠 Brain Tumor Segmentation using U-Net (MRI Images)
+# 🧠 Brain Tumor Segmentation using U-Net (MRI Images)
 
-This project implements a Deep Learning–based brain tumor segmentation model using MRI scans.
-The model is trained to automatically detect and segment tumor regions from brain MRI images.
+This project implements a **Deep Learning–based brain tumor segmentation system** using MRI scans.  
+The model automatically detects and segments tumor regions from brain MRI images using a **U-Net convolutional neural network**.
 
-📌 Project Overview
+---
 
-Manual tumor segmentation in MRI scans is time-consuming and requires medical expertise.
-This project uses a U-Net convolutional neural network to perform pixel-level segmentation of brain tumors.
+## 📌 Project Overview
 
-The model takes an MRI image as input and outputs a binary mask highlighting the tumor region.
+Manual tumor segmentation in MRI scans is time-consuming and requires expert radiologists.  
+This project demonstrates how **deep learning can assist medical image analysis** by performing **pixel-level tumor segmentation**.
 
-🗂 Dataset Used
+The model takes an **MRI brain scan** as input and outputs a **binary mask** highlighting tumor regions.
 
-Dataset: MRI-Based Glioma Detection Dataset with Masks
-Contains:
+---
 
-Brain MRI images
+## 🗂 Dataset Used
 
-Corresponding tumor masks
+**Dataset:** MRI-Based Glioma Detection Dataset with Masks  
 
-Each sample includes:
+Each sample contains:
 
-.tif MRI scan
+- `.tif` → Brain MRI scan  
+- `_mask.tif` → Corresponding tumor segmentation mask  
 
-_mask.tif binary segmentation mask
+The dataset provides paired **images and ground-truth masks** for supervised learning.
 
-🧠 Model Architecture
+---
 
-We implemented a U-Net architecture, which is widely used for biomedical image segmentation.
+## 🧠 Model Architecture
 
-Key Features:
+We implemented a **U-Net architecture**, widely used for biomedical image segmentation.
 
-Encoder–Decoder CNN structure
+### 🔹 Key Features
+- Encoder–Decoder CNN structure  
+- Skip connections for precise localization  
+- Input size: **128 × 128 × 3**  
+- Output: **128 × 128 × 1** binary segmentation mask  
 
-Skip connections for precise localization
+---
 
-Input size: 128 × 128 × 3
+## ⚙️ Training Details
 
-Output: 128 × 128 × 1 segmentation mask
+| Parameter | Value |
+|----------|-------|
+| Optimizer | Adam |
+| Learning Rate | 1e-4 |
+| Loss Function | Binary Crossentropy + Dice Loss |
+| Metric | Dice Coefficient |
+| Batch Size | 4 |
+| Image Size | 128×128 |
+| Early Stopping | Enabled |
+| Model Checkpoint | Saves best model based on validation Dice |
 
-⚙️ Training Details
-Parameter	Value
-Optimizer	Adam
-Learning Rate	1e-4
-Loss Function	BCE + Dice Loss
-Metric	Dice Coefficient
-Batch Size	4
-Image Size	128×128
-Early Stopping	Enabled
-Model Checkpoint	Saves best model based on validation Dice
-📊 Performance
-Metric	Score
-Best Validation Dice Coefficient	~0.59
+---
 
-The model successfully detects tumor regions but still struggles with fine boundary precision — which is common in medical image segmentation without heavy preprocessing or large compute resources.
+## 📊 Performance
 
-🖼 Example Predictions
+| Metric | Score |
+|--------|-------|
+| **Best Validation Dice Coefficient** | **~0.59** |
 
-The model outputs a binary mask showing predicted tumor areas.
+The model detects tumor regions reasonably well but struggles with fine boundary precision — common in medical segmentation tasks without large datasets or heavy preprocessing.
 
-MRI Image	True Mask	Predicted Mask
-Brain Scan	Ground Truth Tumor	Model Segmentation
+---
 
-(See notebook outputs for visual examples)
+## 🖼 Example Predictions
 
-🚀 How to Run
-1️⃣ Install Dependencies
+| MRI Image | True Mask | Predicted Mask |
+|----------|-----------|----------------|
+| Brain Scan | Ground Truth Tumor | Model Segmentation |
+
+➡️ See the notebook outputs for full visual results.
+
+---
+
+## 🚀 How to Run
+
+### 1️⃣ Install Dependencies
+
+```bash
 pip install tensorflow numpy matplotlib opencv-python
-
-2️⃣ Open Notebook
-
-Run the Jupyter Notebook:
-
-imageseg.ipynb
-
-3️⃣ Train the Model
-
-The notebook includes:
-
-Data loading
-
-Preprocessing
-
-Model training
-
-Evaluation
-
-Visualization
-
-💾 Saved Models
-File	Description
-best_brain_tumor_unet.keras	Model trained with BCE loss
-best_brain_tumor_unet_dice.keras	Best model trained using BCE + Dice Loss
-
-To load the best model:
-
-from tensorflow import keras
-
-model = keras.models.load_model(
-    "best_brain_tumor_unet_dice.keras",
-    custom_objects={
-        "dice_coef": dice_coef,
-        "bce_dice_loss": bce_dice_loss
-    }
-)
-
-📈 Future Improvements
-
-Use a pretrained encoder (Transfer Learning)
-
-Add stronger data augmentation
-
-Train on higher resolution images
-
-Use more advanced loss functions (Focal Tversky, Combo Loss)
-
-🎯 Conclusion
-
-This project demonstrates how Deep Learning can assist in medical image analysis by automatically segmenting brain tumors from MRI scans. While not production-ready, the model provides a strong baseline for further research and improvement.
-
-Author: Debasish
-Project Type: Medical Image Segmentation
-Framework: TensorFlow / Keras
